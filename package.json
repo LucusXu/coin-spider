@@ -1,0 +1,25 @@
+{
+    "name": "coin-spider",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+        "async": "latest",
+        "cheerio": "latest",
+        "co": "latest",
+        "dispatch": "latest",
+        "request": "latest",
+        "fdfs": "latest",
+        "images": "latest",
+        "moment": "latest",
+        "moment-timezone": "latest",
+        "mysql": "latest",
+        "mysql2": "latest",
+        "needle": "^2.1.2",
+        "node-schedule": "latest",
+        "nodemailer": "^4.4.2",
+        "pm2": "^2.9.3",
+        "redis": "latest",
+        "sequelize": "4.22.7",
+        "urlencode": "^1.1.0"
+    }
+}
