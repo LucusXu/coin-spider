@@ -1,12 +1,11 @@
 const moment = require("moment-timezone");
-const request = require("request");
 const log = require('../lib/log');
 const logger = new log('jscj');
 const coin_news_content = require('../models/coin_news_content');
 const crypto = require('crypto');
 var sync = require ('../lib/sync');
 const syncer = new sync();
-var util = require ('../util');
+var util = require ('./util');
 const utiler = new util();
 
 module.exports = class jscj {
@@ -26,21 +25,20 @@ module.exports = class jscj {
         ];
         let sleep = (ms) => new Promise (resolve => setTimeout (resolve, ms));
         for (let url of url_list) {
+            console.log(url);
             let data = await utiler.download(url);
             await this.handle(data);
-            sleep(5000);
+            await sleep(5000);
         }
         return true;
     }
 
     async handle(body) {
         let data = JSON.parse(body);
-        if (data.error != 0) {
-            console.log(data.message);
+        if (data.count < 1) {
             return;
         }
-        let news = data.data[0].buttom;
-
+        let news = data.list;
         var param = [];
         for (let one of news) {
             var tmp = await this.parseParam(one);
@@ -51,12 +49,13 @@ module.exports = class jscj {
 
     async parseParam(data) {
         var param = {};
-        param.content = data.content;
         param.title = data.title;
-        param.source = data.source;
-        param.source_id = data.newsflash_id;
-        param.site = 'bishijie';
-        param.content_md5 = await this.md5(data.content);
+        param.summary = data.extra.summary;
+        param.source = data.extra.source;
+        param.source_id = data.id;
+        param.url = data.extra.topic_url;
+        param.site = 'jscj';
+        // param.content_md5 = await utiler.md5(param.content);
         let map = ['BTC','ETH','EOS','BCH','ETC'];
         let tag = "";
         for (let coin of map) {
@@ -68,15 +67,11 @@ module.exports = class jscj {
             param.tags = tag.substring(0, tag.length - 1);
         }
 
-        let published_at = data.issue_time * 1000;
+        let published_at = data.extra.published_at * 1000;
         published_at = moment(published_at).tz("Asia/Shanghai");
         param.published_at = published_at.format('YYYY-MM-DD HH:mm:ss');
+        param.author = data.extra.author;
+        param.thumbnail = data.extra.thumbnail_pic;
         return param;
-    }
-
-    async md5(str) {
-        let md5 = crypto.createHash('md5');
-        md5.update(str);
-        return md5.digest('hex');
     }
 }

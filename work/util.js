@@ -1,13 +1,13 @@
 const moment = require("moment-timezone");
+const request = require("request");
 const urlencode = require('urlencode');
 const sync = require('../lib/sync');
 const log = require('../lib/log');
 const string = require('../lib/string');
 const logger = new log('util');
-const util = module.exports = {};
 
 module.exports = class util {
-    async download () {
+    async download (url) {
         var data = await new Promise(function (resolve, reject) {
             request.get(url, function(error, response, body) {
                 if (!error && response.statusCode == 200) {
@@ -19,5 +19,11 @@ module.exports = class util {
             });
         }.bind(this));
         return data;
+    }
+
+    async md5(str) {
+        let md5 = crypto.createHash('md5');
+        md5.update(str);
+        return md5.digest('hex');
     }
 }
