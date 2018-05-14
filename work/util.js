@@ -5,6 +5,7 @@ const sync = require('../lib/sync');
 const log = require('../lib/log');
 const string = require('../lib/string');
 const logger = new log('util');
+const crypto = require('crypto');
 
 module.exports = class util {
     async download (url) {

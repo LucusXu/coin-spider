@@ -1,12 +1,12 @@
 const log = require('../../lib/log');
-const logger = new log('bjshijie');
+const logger = new log('bishijie');
 const work = require('../../work/bishijie');
 const worker = new work();
 const sync = require('../../lib/sync');
 
 let sleep = (ms) => new Promise (resolve => setTimeout (resolve, ms));
 (async () => {
-    let name = 'news-spider';
+    let name = 'news-spider-bishijie';
     console.log(name);
     logger.custom(name + "启动");
     while(true) {

@@ -9,7 +9,6 @@ const syncer = new sync();
 
 module.exports = class bishijie {
     async fetch () {
-        let sleep = (ms) => new Promise (resolve => setTimeout (resolve, ms));
         let now = new Date().getTime() - 1000000;
         var url = "http://www.bishijie.com/api/newsv17/index?size=50&client=pc&timestamp=" + now;
         console.log(url);

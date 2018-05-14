@@ -1,13 +1,12 @@
-// 金色财经新闻抓取
 const log = require('../../lib/log');
-const logger = new log('jscj');
-const work = require('../../work/jscj');
+const logger = new log('bizhihui');
+const work = require('../../work/bzh');
 const worker = new work();
 const sync = require('../../lib/sync');
 
 let sleep = (ms) => new Promise (resolve => setTimeout (resolve, ms));
 (async () => {
-    let name = 'news-spider-jscj';
+    let name = 'news-spider-bizhihui';
     console.log(name);
     logger.custom(name + "启动");
     while(true) {
